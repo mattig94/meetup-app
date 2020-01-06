@@ -38,7 +38,7 @@
           const refreshCodeElement = document.getElementById('refreshCode');
           const refreshResultElement = document.getElementById('refreshResult');
           const refreshCodeValue = refreshCodeElement.value;
-          const lambdaRefresh = 'https://3ww9exeah4.execute-api.us-east-1.amazonaws.com/dev/api/refresh/' + codeValue;
+          const lambdaRefresh = 'https://3ww9exeah4.execute-api.us-east-1.amazonaws.com/dev/api/refresh/' + refreshCodeValue;
 
           fetch(lambdaRefresh)
             .then(function(response) {
