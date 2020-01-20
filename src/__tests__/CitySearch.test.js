@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import CitySearch from '../CitySearch';
 
-describe('<CitySearc /> component', () => {
+describe('<CitySearch /> component', () => {
   let CitySearchWrapper;
   beforeAll(() => {
     CitySearchWrapper = shallow(<CitySearch />)
@@ -36,30 +36,60 @@ describe('<CitySearc /> component', () => {
   });
 
   test('click on suggestion should change query state', () => {
+    const CitySearchWrapper = shallow(<CitySearch updateEvents={() => {}}/>);
     CitySearchWrapper.setState({
       suggestions: [
         {
-          "city": "Munich",
-          "country": "de",
-          "localized_country_name": "Germany",
-          "name_string": "Munich, Germany",
-          "zip": "meetup3",
-          "lat": 48.14,
-          "lon": 11.58
+          city: 'Manchester',
+          country: 'gb',
+          localized_country_name: 'United Kingdom',
+          name_string: 'Manchester, Greater Manchester, United Kingdom',
+          zip: 'M2 5AS',
+          lat: 53.48,
+          lon: -2.25
         },
         {
-          "city": "Munich",
-          "country": "us",
-          "localized_country_name": "USA",
-          "state": "ND",
-          "name_string": "Munich, North Dakota, USA",
-          "zip": "58352",
-          "lat": 48.66,
-          "lon": -98.85
+          city: 'Manchester',
+          country: 'us',
+          localized_country_name: 'USA',
+          state: 'NH',
+          name_string: 'Manchester, New Hampshire, USA',
+          zip: '03101',
+          lat: 42.99,
+          lon: -71.47
         }
       ]
     });
-    CitySearchWrapper.find('.suggestions li').at(0).simulate('click');
-    expect(CitySearchWrapper.state('query')).toBe('Munich, Germany');
+    CitySearchWrapper.find('.suggestions li').at(1).simulate('click');
+    expect(CitySearchWrapper.state('query')).toBe('Manchester, New Hampshire, USA');
+  });
+});
+
+describe('<CitySearch /> integration', () => {
+  test('get a list of cities when user searches for Manchester', async () => {
+    const CitySearchWrapper = shallow(<CitySearch />);
+    CitySearchWrapper.find('.city').simulate('change', { target: { value: 'Manchester' } });
+    await CitySearchWrapper.update();
+    expect(CitySearchWrapper.state('suggestions')).toEqual([
+      {
+        city: 'Manchester',
+        country: 'gb',
+        localized_country_name: 'United Kingdom',
+        name_string: 'Manchester, Greater Manchester, United Kingdom',
+        zip: 'M2 5AS',
+        lat: 53.48,
+        lon: -2.25
+      },
+      {
+        city: 'Manchester',
+        country: 'us',
+        localized_country_name: 'USA',
+        state: 'NH',
+        name_string: 'Manchester, New Hampshire, USA',
+        zip: '03101',
+        lat: 42.99,
+        lon: -71.47
+      }
+    ]);
   });
 });
