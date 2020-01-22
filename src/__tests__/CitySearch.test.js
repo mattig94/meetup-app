@@ -5,7 +5,7 @@ import CitySearch from '../CitySearch';
 describe('<CitySearch /> component', () => {
   let CitySearchWrapper;
   beforeAll(() => {
-    CitySearchWrapper = shallow(<CitySearch />)
+    CitySearchWrapper = shallow(<CitySearch updateEvents={() => {}} />)
   });
 
   test('render test input', () => {
@@ -35,8 +35,7 @@ describe('<CitySearch /> component', () => {
     }
   });
 
-  test('click on suggestion should change query state', () => {
-    const CitySearchWrapper = shallow(<CitySearch updateEvents={() => {}}/>);
+  test('click on suggestion should change query state and empty list of suggestions', () => {
     CitySearchWrapper.setState({
       suggestions: [
         {
@@ -60,8 +59,10 @@ describe('<CitySearch /> component', () => {
         }
       ]
     });
+    expect(CitySearchWrapper.find('.suggestions li')).toHaveLength(2);
     CitySearchWrapper.find('.suggestions li').at(1).simulate('click');
     expect(CitySearchWrapper.state('query')).toBe('Manchester, New Hampshire, USA');
+    expect(CitySearchWrapper.find('.suggestions li')).toHaveLength(0);
   });
 });
 
