@@ -42,12 +42,24 @@ describe('<App /> integration', () => {
     AppWrapper.instance().updateEvents(1.1, 1.2);
     await AppWrapper.update();
     expect(AppWrapper.state('events')).toEqual(mockEvents.events);
+    AppWrapper.unmount();
   });
 
   test('render correct list of events', () => {
     const AppWrapper = mount(<App />);
     AppWrapper.setState({ events: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }] });
     expect(AppWrapper.find('.Event')).toHaveLength(4);
+    AppWrapper.unmount();
+  });
+
+  test('get correct number of events after user specifies a number', async () => {
+    const AppWrapper = mount(<App />);
+    AppWrapper.instance().updateEvents = jest.fn();
+    AppWrapper.instance().forceUpdate();
+    const NumberOfEventsWrapper = AppWrapper.find(NumberOfEvents);
+    NumberOfEventsWrapper.instance().handleInputChanged({ target: { value: 5 } });
+    expect(AppWrapper.instance().updateEvents).toHaveBeenCalledTimes(1);
+    expect(AppWrapper.instance().updateEvents).toHaveBeenCalledWith(null, null, 5);
     AppWrapper.unmount();
   });
   
