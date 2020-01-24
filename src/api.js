@@ -50,7 +50,7 @@ async function getEvents(lat, lon, page) {
       }
       //number of events is optional, defaults to 32
       if (page) {
-        url += '&page' + page;
+        url += '&page=' + page;
       }
       const result = await axios.get(url);
       return result.data.events;
