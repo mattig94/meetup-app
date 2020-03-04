@@ -24,8 +24,8 @@ class NumberOfEvents extends Component {
   render() {
     return(
       <div className="NumberOfEvents">
+        <ErrorAlert text={this.state.errorText} />
         <p>
-          <ErrorAlert text={this.state.errorText} />
           Show
           <input type="number" className="howManyEvents" onChange={this.handleInputChanged} value={this.state.number} />
           Events

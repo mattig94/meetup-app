@@ -5,6 +5,8 @@ import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
 import { getEvents } from './api';
 import { WarningAlert } from './Alert';
+import moment from 'moment';
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 class App extends Component {
   state = {
@@ -37,12 +39,43 @@ class App extends Component {
     }
   }
 
+  countEventsOnADate = (date) => {
+    let count = 0;
+    for (let i = 0; i < this.state.events.length; i += 1) {
+      if (this.state.events[i].local_date === date) {
+        count += 1;
+      }
+    }
+    return count;
+  }
+
+  getData = () => {
+    const next7days = [];
+    const currentDate = moment();
+    for (let i = 0; i < 7; i += 1) {
+      currentDate.add(1, 'days');
+      const dateString = currentDate.format('YYYY-MM-DD');
+      const count = this.countEventsOnADate(dateString);
+      next7days.push({ date: dateString, number: count });
+    }
+    return next7days;
+  }
+
   render() {
     return (
       <div className="App">
         <CitySearch updateEvents={this.updateEvents} />
         <NumberOfEvents updateEvents={this.updateEvents} />
         <WarningAlert text={this.state.warningText} />
+        <ResponsiveContainer height={400}>
+          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis type="category" dataKey="date" name="date" />
+            <YAxis type="number" dataKey="number" name="number of events" allowDecimals={false} />
+            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+            <Scatter data={this.getData()} fill="#8884d8" />
+          </ScatterChart>
+        </ResponsiveContainer>
         <EventList events={this.state.events} />
       </div>
     );
