@@ -7,6 +7,16 @@
   box-sizing: border-box;
 }
 
+h1 {
+  -moz-text-fill-color: #95D9B0;
+  -webkit-text-fill-color: #95D9B0;
+  -moz-text-stroke-color: #1d3251;
+  -webkit-text-stroke-color: #1d3251;
+  -moz-text-stroke-width: 1px;  
+  -webkit-text-stroke-width: 1px;  
+  color: #1d3251;
+}
+
 ul {
   padding: 0;
   list-style: none;

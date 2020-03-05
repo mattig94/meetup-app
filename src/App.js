@@ -64,16 +64,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <h1>Meetup Application</h1>
         <CitySearch updateEvents={this.updateEvents} />
         <NumberOfEvents updateEvents={this.updateEvents} />
         <WarningAlert text={this.state.warningText} />
         <ResponsiveContainer height={400}>
-          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+          <ScatterChart margin={{ top: 5, right: 5, bottom: 5, left: 5 }} >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="category" dataKey="date" name="date" />
             <YAxis type="number" dataKey="number" name="number of events" allowDecimals={false} />
             <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-            <Scatter data={this.getData()} fill="#8884d8" />
+            <Scatter data={this.getData()} fill="#95D9B0" />
           </ScatterChart>
         </ResponsiveContainer>
         <EventList events={this.state.events} />
